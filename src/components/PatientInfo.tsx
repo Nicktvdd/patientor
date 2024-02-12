@@ -37,14 +37,14 @@ const PatientInfo: React.FC = () => {
 	};
 
 	return (
-		<Container>
+		<div>
 			<Typography variant="h4">
-				{patient.name} {genderIcon()} 
+				{patient.name} {genderIcon()}
 			</Typography>
-			
+
 			<Typography variant="body1">{patient.ssn}</Typography>
 			<Typography variant="body1">{patient.occupation}</Typography>
-		</Container>
+		</div>
 	);
 };
 
