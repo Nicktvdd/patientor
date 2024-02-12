@@ -44,6 +44,17 @@ const PatientInfo: React.FC = () => {
 
 			<Typography variant="body1">{patient.ssn}</Typography>
 			<Typography variant="body1">{patient.occupation}</Typography>
+			<Typography variant="h5">Entries</Typography>
+			{patient.entries && patient.entries.map(entry =>
+				<div key={entry.id}>
+					<Typography variant="body1">{entry.date} {entry.description}</Typography>
+					<ul>
+						{entry.diagnosisCodes && entry.diagnosisCodes.map(code =>
+							<li key={code}>{code}</li>
+						)}
+					</ul>
+				</div>
+			)}
 		</div>
 	);
 };
