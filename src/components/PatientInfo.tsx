@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
-import { Diagnosis, Patient } from '../types';
+import { Patient } from '../types';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import Diagnoses from './Diagnoses';
+import HealthCheckEntry from './Entries/HealthCheckEntry';
+import HospitalEntry from './Entries/HospitalEntry';
+import OccupationalHealthcareEntry from './Entries/OccupationalHealthcareEntry';
+import { Entry } from '../types';
+import Divider from '@mui/material/Divider';
+
 
 
 const PatientInfo: React.FC = () => {
@@ -37,23 +43,42 @@ const PatientInfo: React.FC = () => {
 		}
 	};
 
+	const assertNever = (value: never): never => {
+		throw new Error(`Unhandled discriminated union member: ${JSON.stringify(value)}`);
+	};
+
+	const entryDetails = (entry: Entry) => {
+		switch (entry.type) {
+			case "Hospital":
+				return <HospitalEntry entry={entry} />;
+			case "OccupationalHealthcare":
+				return <OccupationalHealthcareEntry entry={entry} />;
+			case "HealthCheck":
+				return <HealthCheckEntry entry={entry} />;
+			default:
+				return assertNever(entry);
+		}
+	};
+
 	return (
 		<div>
 			<Typography variant="h4">
 				{patient.name} {genderIcon()}
 			</Typography>
-
 			<Typography variant="body1">{patient.ssn}</Typography>
 			<Typography variant="body1">{patient.occupation}</Typography>
+			<Divider />
 			<Typography variant="h5">Entries</Typography>
 			{patient.entries && patient.entries.map(entry =>
 				<div key={entry.id}>
-					<Typography variant="body1">{entry.date} {entry.description}</Typography>
+					{entryDetails(entry)}
 					<ul>
 						{entry.diagnosisCodes && entry.diagnosisCodes.map((code, index) =>
 							<Diagnoses key={index} patientCode={code} />
 						)}
+						<Divider />
 					</ul>
+
 				</div>
 			)}
 		</div>
