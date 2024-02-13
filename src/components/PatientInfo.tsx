@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
-import { Patient } from '../types';
+import { Typography } from '@mui/material';
+import { Diagnosis, Patient } from '../types';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
+import Diagnoses from './Diagnoses';
 
 
 const PatientInfo: React.FC = () => {
@@ -49,8 +50,8 @@ const PatientInfo: React.FC = () => {
 				<div key={entry.id}>
 					<Typography variant="body1">{entry.date} {entry.description}</Typography>
 					<ul>
-						{entry.diagnosisCodes && entry.diagnosisCodes.map(code =>
-							<li key={code}>{code}</li>
+						{entry.diagnosisCodes && entry.diagnosisCodes.map((code, index) =>
+							<Diagnoses key={index} patientCode={code} />
 						)}
 					</ul>
 				</div>
